@@ -1,0 +1,52 @@
+using System;
+using System.Windows.Forms;
+
+namespace EscapeRoomGame
+{
+    public partial class Form1 : Form
+    {
+        private int timeLeft = 300;
+        private bool hasKey = false;
+
+        public Form1()
+        {
+            InitializeComponent();
+            timer1.Interval = 1000;
+            timer1.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timeLeft--;
+            lblTimer.Text = $"Time Left: {timeLeft}s";
+
+            if (timeLeft <= 0)
+            {
+                timer1.Stop();
+                MessageBox.Show("Time's up! You failed to escape.");
+                Application.Exit();
+            }
+        }
+
+        private void btnDrawer_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("You found a key inside!");
+            hasKey = true;
+            btnInventory.Items.Add("Key");
+        }
+
+        private void btnDoor_Click(object sender, EventArgs e)
+        {
+            if (hasKey)
+            {
+                timer1.Stop();
+                MessageBox.Show("You escaped! Congratulations!");
+                Application.Exit();
+            }
+            else
+            {
+                MessageBox.Show("The door is locked. Find the key.");
+            }
+        }
+    }
+}
